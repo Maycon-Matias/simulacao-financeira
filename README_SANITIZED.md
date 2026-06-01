@@ -1,0 +1,1 @@
+Este é um export sanitizado de Sistema-Produto-API. Arquivos e valores sensíveis foram removidos ou redigidos automaticamente.

@@ -1,0 +1,41 @@
+===========================================
+  SISTEMA PRODUTO API - COMANDOS RÁPIDOS
+===========================================
+
+⚠️ IMPORTANTE: Execute sempre no diretório correto!
+
+DIRETÓRIO CORRETO:
+  c:\codigos\Sistema-Produto-API
+
+===========================================
+  COMANDOS PARA EXECUTAR
+===========================================
+
+1. Navegar para o diretório:
+   cd c:\codigos\Sistema-Produto-API
+
+2. Instalar dependências (primeira vez):
+   npm.cmd install
+
+3. Iniciar servidor:
+   npm.cmd run dev
+
+OU use o arquivo start.bat (duplo clique)
+
+===========================================
+  ACESSO
+===========================================
+
+Após iniciar, acesse:
+  http://localhost:3004
+
+===========================================
+  CONFIGURAÇÃO
+===========================================
+
+Crie o arquivo .env.local com:
+  NEXT_PUBLIC_API_BASE_URL=https://api.hubcredito.com.br/api
+  NEXT_PUBLIC_API_KEY=REDACTED
+
+===========================================
+

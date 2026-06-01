@@ -1,0 +1,44 @@
+COMO INICIAR O SERVIDOR - INSTRUÇÕES
+
+Opção 1: Usar o arquivo .bat (MAIS FÁCIL)
+==========================================
+1. Vá na pasta do projeto
+2. Dê duplo clique no arquivo: start-dev.bat
+3. Aguarde o servidor iniciar
+
+Opção 2: Usar Command Prompt (cmd)
+===================================
+1. Pressione Windows + R
+2. Digite: cmd
+3. Pressione Enter
+4. Digite:
+   cd C:\codigos\Sistema-Produto-API
+5. Pressione Enter
+6. Digite:
+   npm run dev
+7. Pressione Enter
+
+Opção 3: Alterar política do PowerShell (PERMANENTE)
+====================================================
+1. Abra PowerShell como Administrador:
+   - Clique com botão direito no menu Iniciar
+   - Selecione "Windows PowerShell (Administrador)"
+   
+2. Execute este comando:
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+3. Responda "S" quando solicitado
+
+4. Feche e reabra o PowerShell normal
+
+5. Execute:
+   cd C:\codigos\Sistema-Produto-API
+   npm run dev
+
+Opção 4: Usar npx diretamente
+==============================
+No Command Prompt ou PowerShell:
+   npx next dev -p 3004
+
+O servidor deve iniciar em: http://localhost:3004
+

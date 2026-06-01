@@ -1,0 +1,41 @@
+===========================================
+COMO EXECUTAR O SISTEMA NO POWERSHELL
+===========================================
+
+PROBLEMA:
+O PowerShell pode bloquear a execução de scripts npm devido à política de segurança.
+
+SOLUÇÕES:
+
+1. USAR O ARQUIVO start.bat (RECOMENDADO)
+   - Clique duas vezes no arquivo start.bat
+   - Ou execute no PowerShell: .\start.bat
+
+2. USAR npm.cmd EXPLICITAMENTE
+   - Execute: cmd /c "npm.cmd install"
+   - Depois: cmd /c "npm.cmd run dev"
+
+3. ALTERAR POLÍTICA DO POWERSHELL (NÃO RECOMENDADO)
+   - Execute como Administrador:
+     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   - Depois execute normalmente: npm run dev
+
+4. USAR O SCRIPT start.ps1 ATUALIZADO
+   - Execute: .\start.ps1
+   - O script agora usa cmd /c para evitar problemas
+
+===========================================
+COMANDOS RÁPIDOS:
+===========================================
+
+# Instalar dependências
+cmd /c "npm.cmd install"
+
+# Iniciar servidor
+cmd /c "npm.cmd run dev"
+
+# Ou simplesmente use o start.bat
+.\start.bat
+
+===========================================
+
