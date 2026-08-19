@@ -11,13 +11,13 @@ export const dynamic = "force-dynamic"
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { username, ******, baseUrl } = body
+    const { username, password, baseUrl } = body
 
-    if (!username || !******) {
+    if (!username || !password) {
       return NextResponse.json(
         { 
           success: false,
-          error: 'Username e ****** são obrigatórios' 
+          error: 'Username e password são obrigatórios' 
         },
         { status: 400 }
       )
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify({
           login: username,
-          ******: ******,
+          password: password,
         }),
         signal: controller.signal,
       })
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
             success: false,
             error: errorMessage,
             details: response.status === 401 ? 
-              'Verifique se as credenciais (username, ******) estão corretas.' :
+              'Verifique se as credenciais (username, password) estão corretas.' :
               undefined,
           },
           { status: response.status }

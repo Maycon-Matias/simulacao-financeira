@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       console.log('[verificar-status-clt] Usando credenciais da requisição, promotId:', credentials.promotId)
       nossaFintechClient.updateCredentials(
         credentials.username || config.username, // CPF/username
-        credentials.****** || config.******,
+        credentials.password || config.password,
         credentials.baseUrl || config.baseUrl,
         credentials.promotId || (config as any).promotId
       )
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       console.log('[verificar-status-clt] Usando credenciais da configuração, promotId:', (config as any).promotId)
       nossaFintechClient.updateCredentials(
         config.username,
-        config.******,
+        config.password,
         config.baseUrl,
         (config as any).promotId
       )

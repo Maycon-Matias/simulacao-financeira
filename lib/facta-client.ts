@@ -2,7 +2,7 @@ import type { ApiResponse } from './api-client'
 
 /**
  * registro para a API Facta.
- * Autenticação: GET gera-token com Basic Auth (usuário/******).
+ * Autenticação: GET gera-token com Basic Auth (usuário/password).
  * Variáveis: FACTA_API_BASE_URL, FACTA_API_USERNAME, FACTA_API_PASSWORD,
  * FACTA_API_TIMEOUT_MS (opcional), FACTA_API_LOG (opcional, '1' para ativar logs).
  */
@@ -63,7 +63,7 @@ const FACTA_DEFAULT_HEADERS: Record<string, string> = {
 export class FactaClient {
   private baseUrl: string
   private username: string
-  private ******: string
+  private password: string
   private accessToken: string | null = null
   private tokenExpiration: Date | null = null
   private readonly timeout: number
@@ -87,7 +87,7 @@ export class FactaClient {
 
     this.baseUrl = (baseUrl || getEnv('FACTA_API_BASE_URL', '')).replace(/\/$/, '')
     this.username = getEnv('FACTA_API_USERNAME', '')
-    this.****** = getEnv('FACTA_API_PASSWORD', '')
+    this.password = getEnv('FACTA_API_PASSWORD', '')
     this.timeout = options?.timeout ?? getEnvNum('FACTA_API_TIMEOUT_MS', 30000)
     this.logEnabled = options?.log ?? getEnv('FACTA_API_LOG', '') === '1'
     this.consultarVinculosPath =
@@ -101,9 +101,9 @@ export class FactaClient {
     }
   }
 
-  updateCredentials(username?: string, ******?: string, baseUrl?: string) {
+  updateCredentials(username?: string, password?: string, baseUrl?: string) {
     if (username) this.username = username
-    if (******) this.****** = ******
+    if (password) this.password = password
     if (baseUrl) this.baseUrl = baseUrl.replace(/\/$/, '')
     this.accessToken = null
     this.tokenExpiration = null
@@ -118,16 +118,16 @@ export class FactaClient {
    * Obtém token via GET gera-token com Basic Auth.
    */
   private async getToken(): Promise<ApiResponse<string>> {
-    if (!this.username || !this.******) {
+    if (!this.username || !this.password) {
       return {
         success: false,
-        error: 'Credenciais Facta não configuradas (usuário e ******).',
+        error: 'Credenciais Facta não configuradas (usuário e password).',
       }
     }
 
     try {
       const url = `${this.baseUrl}/gera-token`
-      const basic = Buffer.from(`${this.username}:${this.******}`).toString('base64')
+      const basic = Buffer.from(`${this.username}:${this.password}`).toString('base64')
 
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), this.timeout)

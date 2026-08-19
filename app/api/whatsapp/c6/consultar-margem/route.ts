@@ -62,8 +62,8 @@ export async function POST(request: NextRequest) {
       }, { status: 500 })
     }
 
-    if (c6Config.username && c6Config.****** && typeof client.updateCredentials === 'function') {
-      client.updateCredentials(c6Config.username, c6Config.******, c6Config.baseUrl, (c6Config as any).authUrl)
+    if (c6Config.username && c6Config.password && typeof client.updateCredentials === 'function') {
+      client.updateCredentials(c6Config.username, c6Config.password, c6Config.baseUrl, (c6Config as any).authUrl)
     }
 
     const result = await client.simularConsignadoTrabalhador({

@@ -9,20 +9,20 @@ import { getCachedConsulta, saveConsulta } from '@/lib/nvcheck-cache'
  * Body: { documento: string }  (CPF 11 dígitos ou CNPJ 14 dígitos)
  *
  * Credenciais via env: NOVVIDATI_USUARIO, NOVVIDATI_SENHA, NOVVIDATI_CLIENTE
- * Ou via body: entidade, ******, registro (para override)
+ * Ou via body: entidade, password, registro (para override)
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}))
     const documento = body.documento?.toString()?.replace(/\D/g, '') ?? ''
     const entidade = body.entidade || process.env.REDACTED || ''
-    const ****** = body.****** || process.env.REDACTED || ''
+    const password = body.password || process.env.REDACTED || ''
     const registro = body.registro || process.env.REDACTED || ''
 
-    if (!entidade || !****** || !registro) {
+    if (!entidade || !password || !registro) {
       return NextResponse.json({
         success: false,
-        error: 'Credenciais não configuradas. Informe entidade, ****** e registro no corpo da requisição ou configure NOVVIDATI_* no .env.local'
+        error: 'Credenciais não configuradas. Informe entidade, password e registro no corpo da requisição ou configure NOVVIDATI_* no .env.local'
       }, { status: 500 })
     }
 
@@ -48,8 +48,8 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const credenciais = entidade && ****** && registro
-      ? { entidade, ******, registro }
+    const credenciais = entidade && password && registro
+      ? { entidade, password, registro }
       : undefined
 
     const client = new NovaVidaTiNvCheckClient(credenciais)

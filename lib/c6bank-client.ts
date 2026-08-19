@@ -134,7 +134,7 @@ export class C6BankClient {
   private baseUrl: string
   private authUrl: string
   private username: string
-  private ******: string
+  private password: string
   private accessToken: string | null = null
   private tokenExpiration: Date | null = null
   private readonly timeout = 30000
@@ -149,12 +149,12 @@ export class C6BankClient {
     this.baseUrl = baseUrl || getEnv('C6BANK_API_BASE_URL', DEFAULT_BASE_URL).replace(/\/$/, '')
     this.authUrl = authUrl || getEnv('C6BANK_AUTH_URL', '').replace(/\/$/, '') || `${this.baseUrl}/auth/token`
     this.username = getEnv('C6BANK_USERNAME', '')
-    this.****** = getEnv('C6BANK_PASSWORD', '')
+    this.password = getEnv('C6BANK_PASSWORD', '')
   }
 
-  updateCredentials(username?: string, ******?: string, baseUrl?: string, authUrl?: string) {
+  updateCredentials(username?: string, password?: string, baseUrl?: string, authUrl?: string) {
     if (username !== undefined) this.username = username
-    if (****** !== undefined) this.****** = ******
+    if (password !== undefined) this.password = password
     if (baseUrl !== undefined) this.baseUrl = baseUrl.replace(/\/$/, '')
     if (authUrl !== undefined) this.authUrl = authUrl.replace(/\/$/, '')
     else if (baseUrl !== undefined) this.authUrl = `${this.baseUrl}/auth/token`
@@ -174,10 +174,10 @@ export class C6BankClient {
    */
   private async login(): Promise<ApiResponse<string>> {
     try {
-      if (!this.username || !this.******) {
-        return { success: false, error: 'C6 Bank: usuário e ****** não configurados.' }
+      if (!this.username || !this.password) {
+        return { success: false, error: 'C6 Bank: usuário e password não configurados.' }
       }
-      const body = new URLSearchParams({ username: this.username, ******: this.****** }).toString()
+      const body = new URLSearchParams({ username: this.username, password: this.password }).toString()
       const res = await fetch(this.authUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

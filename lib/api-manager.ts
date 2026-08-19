@@ -18,7 +18,7 @@ export interface ApiConfig {
   name: string
   baseUrl: string
   username?: string
-  ******?: string
+  password?: string
   active: boolean
   type: 'nossafintech' | 'v8digital' | 'credspot' | 'presencabank' | 'c6bank' | 'facta' | 'hubcredito' | 'custom'
   // Campos adicionais para APIs específicas
@@ -44,7 +44,7 @@ class ApiManager {
         // Nossa Fintech usa CPF como primeiro parâmetro e precisa de promot_id
         // Por padrão, se não houver promot_id separado, assumimos que username é o CPF
         // O promot_id pode estar em uma variável de ambiente separada ou ser definido depois
-        if (config.username && config.******) {
+        if (config.username && config.password) {
           // Prioriza promot_id da config, depois tenta variável de ambiente
           const getEnvPromotId = (key: string, defaultValue?: string): string | undefined => {
             if (typeof window === 'undefined') {
@@ -81,7 +81,7 @@ class ApiManager {
           
           nossaFintechClient.updateCredentials(
             config.username, // CPF
-            config.******,
+            config.password,
             config.baseUrl,
             promotId
           )
@@ -90,10 +90,10 @@ class ApiManager {
       }
       case 'v8digital': {
         const v8Client = new V8DigitalClient(config.baseUrl, (config as any).authUrl)
-        if (config.username && config.******) {
+        if (config.username && config.password) {
           v8Client.updateCredentials(
             config.username,
-            config.******,
+            config.password,
             config.baseUrl,
             (config as any).authUrl,
             (config as any).clientId,
@@ -124,10 +124,10 @@ class ApiManager {
       }
       case 'presencabank': {
         const presencaBankClient = new PresencaBankClient(config.baseUrl)
-        if (config.username && config.******) {
+        if (config.username && config.password) {
           presencaBankClient.updateCredentials(
             config.username,
-            config.******,
+            config.password,
             config.baseUrl
           )
         }
@@ -135,10 +135,10 @@ class ApiManager {
       }
       case 'c6bank': {
         const c6BankClient = new C6BankClient(config.baseUrl, (config as any).authUrl)
-        if (config.username && config.******) {
+        if (config.username && config.password) {
           c6BankClient.updateCredentials(
             config.username,
-            config.******,
+            config.password,
             config.baseUrl,
             (config as any).authUrl
           )
@@ -147,15 +147,15 @@ class ApiManager {
       }
       case 'facta': {
         const factaClient = new FactaClient(config.baseUrl)
-        if (config.username && config.******) {
-          factaClient.updateCredentials(config.username, config.******, config.baseUrl)
+        if (config.username && config.password) {
+          factaClient.updateCredentials(config.username, config.password, config.baseUrl)
         }
         return factaClient
       }
       case 'hubcredito': {
         const hubClient = new HubCreditoClient(config.baseUrl)
-        if (config.username && config.******) {
-          hubClient.updateCredentials(config.username, config.******, config.baseUrl)
+        if (config.username && config.password) {
+          hubClient.updateCredentials(config.username, config.password, config.baseUrl)
         }
         return hubClient
       }
@@ -203,7 +203,7 @@ class ApiManager {
                 const mergedConfig = {
                   ...defaultConfig, // Valores padrão como base
                   ...savedConfig,   // Sobrescreve com valores salvos
-                  ******: savedConfig.****** || defaultConfig.******, // Mantém ****** padrão se salva estiver vazia
+                  password: savedConfig.password || defaultConfig.password, // Mantém password padrão se salva estiver vazia
                   username: savedConfig.username || defaultConfig.username,
                   baseUrl: savedConfig.baseUrl || defaultConfig.baseUrl,
                   active:
@@ -251,7 +251,7 @@ class ApiManager {
               if (!this.configs.some(c => c.id === savedConfig.id) && savedConfig.type === 'custom') {
                 this.configs.push({
                   ...savedConfig,
-                  ******: savedConfig.****** || undefined // ****** não é salva, mas pode vir do savedConfig
+                  password: savedConfig.password || undefined // password não é salva, mas pode vir do savedConfig
                 })
               }
             })
@@ -317,7 +317,7 @@ class ApiManager {
         name: 'Nossa Fintech (Padrão)',
         baseUrl: getEnv('NOSSA_FINTECH_API_BASE_URL', 'https://nossa-fintech-api.spixiiservices.com.br') || 'https://nossa-fintech-api.spixiiservices.com.br',
         username: getEnv('NOSSA_FINTECH_API_CPF', '') || '', // CPF usado como username
-        ******: getEnv('NOSSA_FINTECH_API_PASSWORD', '') || '',
+        password: getEnv('NOSSA_FINTECH_API_PASSWORD', '') || '',
         promotId: getEnv('NOSSA_FINTECH_API_PROMOT_ID'), // Promot ID pode vir da variável de ambiente
         active: true,
         type: 'nossafintech' as const
@@ -327,7 +327,7 @@ class ApiManager {
         name: 'V8 Digital (Padrão)',
         baseUrl: getEnv('V8_API_BASE_URL', 'https://bff.v8sistema.com') || 'https://bff.v8sistema.com',
         username: getEnv('V8_API_USERNAME', '') || '',
-        ******: getEnv('V8_API_PASSWORD', '') || '',
+        password: getEnv('V8_API_PASSWORD', '') || '',
         clientId: getEnv('V8_API_CLIENT_ID', '') || '',
         authUrl: getEnv('V8_API_AUTH_URL', 'https://auth.v8sistema.com/oauth/token') || 'https://auth.v8sistema.com/oauth/token',
         audience: getEnv('V8_API_AUDIENCE', 'https://bff.v8sistema.com') || 'https://bff.v8sistema.com', // OBRIGATÓRIO
@@ -351,7 +351,7 @@ class ApiManager {
         name: 'Presença Bank (Padrão)',
         baseUrl: getEnv('PRESENCA_API_BASE_URL', 'https://presenca-bank-api.azurewebsites.net') || 'https://presenca-bank-api.azurewebsites.net',
         username: getEnv('PRESENCA_API_USERNAME', '') || '',
-        ******: getEnv('PRESENCA_API_PASSWORD', '') || '',
+        password: getEnv('PRESENCA_API_PASSWORD', '') || '',
         active: true,
         type: 'presencabank' as const
       },
@@ -360,7 +360,7 @@ class ApiManager {
         name: 'C6 Bank (CLT)',
         baseUrl: getEnv('C6BANK_API_BASE_URL', 'https://marketplace-proposal-service-api-p.c6bank.info') || 'https://marketplace-proposal-service-api-p.c6bank.info',
         username: getEnv('C6BANK_USERNAME', '') || '',
-        ******: getEnv('C6BANK_PASSWORD', '') || '',
+        password: getEnv('C6BANK_PASSWORD', '') || '',
         active: true,
         type: 'c6bank' as const
       },
@@ -369,7 +369,7 @@ class ApiManager {
         name: 'Hub Crédito',
         baseUrl: getEnv('HUBCREDITO_API_BASE_URL', 'https://api.hubcredito.com.br/api') || 'https://api.hubcredito.com.br/api',
         username: getEnv('HUBCREDITO_API_USERNAME', '') || '',
-        ******: getEnv('HUBCREDITO_API_PASSWORD', '') || '',
+        password: getEnv('HUBCREDITO_API_PASSWORD', '') || '',
         active: true,
         type: 'hubcredito' as const
       },
@@ -378,7 +378,7 @@ class ApiManager {
         name: 'Facta',
         baseUrl: getEnv('FACTA_API_BASE_URL', '') || '',
         username: getEnv('FACTA_API_USERNAME', '') || '',
-        ******: getEnv('FACTA_API_PASSWORD', '') || '',
+        password: getEnv('FACTA_API_PASSWORD', '') || '',
         active: true,
         type: 'facta' as const
       }
@@ -457,7 +457,7 @@ class ApiManager {
     this.configs[index] = { ...this.configs[index], ...updates }
     console.log('[ApiManager] Config atualizada. Promot ID:', (this.configs[index] as any).promotId)
     
-    // Se ****** foi fornecida, atualiza também (mas não salva no localStorage por segurança)
+    // Se password foi fornecida, atualiza também (mas não salva no localStorage por segurança)
     // Se promotId foi fornecido, salva junto com a config
     this.saveConfigs()
 
@@ -562,8 +562,8 @@ class ApiManager {
           username: config.username,
           active: config.active,
           type: config.type,
-          // Não salva a ****** por segurança
-          hasPassword: !!config.******
+          // Não salva a password por segurança
+          hasPassword: !!config.password
         } as any
         
         // Salva promot_id para Nossa Fintech
@@ -617,16 +617,16 @@ class ApiManager {
   }
 
   /**
-   * Atualiza ****** de uma API (para uso quando reconfigurando)
+   * Atualiza password de uma API (para uso quando reconfigurando)
    */
-  updateApiPassword(apiId: string, ******: string): boolean {
+  updateApiPassword(apiId: string, password: string): boolean {
     const index = this.configs.findIndex(c => c.id === apiId)
     if (index === -1) return false
 
-    this.configs[index].****** = ******
+    this.configs[index].password = password
     const client = this.apis.get(apiId)
     if (client) {
-      client.updateCredentials(this.configs[index].username, ******, this.configs[index].baseUrl)
+      client.updateCredentials(this.configs[index].username, password, this.configs[index].baseUrl)
     }
 
     return true
@@ -684,7 +684,7 @@ class ApiManager {
     } else if (client && config.type === 'nossafintech') {
       // Para Nossa Fintech, sempre atualiza as credenciais para garantir que o promotId está atualizado
       const nossaFintechClient = client as any
-      if (nossaFintechClient.updateCredentials && config.username && config.******) {
+      if (nossaFintechClient.updateCredentials && config.username && config.password) {
         const getEnvPromotId = (key: string, defaultValue?: string): string | undefined => {
           if (typeof window === 'undefined') {
             return process.env[key] || defaultValue
@@ -709,7 +709,7 @@ class ApiManager {
         console.log('[ApiManager] Atualizando credenciais do registro existente. Promot ID:', promotId, 'Tipo:', typeof promotId)
         nossaFintechClient.updateCredentials(
           config.username,
-          config.******,
+          config.password,
           config.baseUrl,
           promotId
         )
@@ -717,7 +717,7 @@ class ApiManager {
     } else if (client && config.type === 'v8digital') {
       // Para V8 Digital, sempre atualiza as credenciais para garantir que audience está atualizado
       const v8Client = client as any
-      if (v8Client.updateCredentials && config.username && config.******) {
+      if (v8Client.updateCredentials && config.username && config.password) {
         const getEnv = (key: string): string | undefined => {
           if (typeof window === 'undefined') {
             return process.env[key]
@@ -738,7 +738,7 @@ class ApiManager {
         console.log('[ApiManager] Atualizando credenciais do V8 Digital. Audience:', audience ? 'configurado' : 'NÃO configurado')
         v8Client.updateCredentials(
           config.username,
-          config.******,
+          config.password,
           config.baseUrl,
           (config as any).authUrl,
           (config as any).clientId,

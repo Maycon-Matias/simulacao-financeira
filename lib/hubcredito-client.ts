@@ -54,7 +54,7 @@ interface UserInfo {
 export class HubCreditoClient {
   private baseUrl: string
   private username: string
-  private ******: string
+  private password: string
   private accessToken: string | null = null
   private tokenExpiration: Date | null = null
   private userInfo: UserInfo | null = null
@@ -72,7 +72,7 @@ export class HubCreditoClient {
     this.username =
       process.env.REDACTED ||
       ''
-    this.****** =
+    this.password =
       process.env.REDACTED ||
       ''
   }
@@ -80,9 +80,9 @@ export class HubCreditoClient {
   /**
    * Atualiza credenciais e URL base
    */
-  updateCredentials(username?: string, ******?: string, baseUrl?: string) {
+  updateCredentials(username?: string, password?: string, baseUrl?: string) {
     if (username) this.username = username
-    if (******) this.****** = ******
+    if (password) this.password = password
     if (baseUrl) this.baseUrl = baseUrl
     // Limpa token para forçar novo login
     this.accessToken = null
@@ -132,7 +132,7 @@ export class HubCreditoClient {
 
   private async login(): Promise<ApiResponse<string>> {
     try {
-      if (!this.username || !this.******) {
+      if (!this.username || !this.password) {
         this.lastAuthError =
           'Credenciais não configuradas. Configure HUBCREDITO_API_USERNAME e HUBCREDITO_API_PASSWORD no arquivo .env.local'
         return {
@@ -148,8 +148,8 @@ export class HubCreditoClient {
         },
         body: JSON.stringify({
           userName: this.username,
-          ******: this.******,
-          grantTypes: '******',
+          password: this.password,
+          grantTypes: 'password',
         }),
       })
 

@@ -498,7 +498,7 @@ export function CLTConsultaLoteFacta() {
                     ))}
                   </select>
                   <p className="text-xs text-gray-500">
-                    No modo <strong>Online</strong>, as credenciais (usuário/******) e URL base vêm da configuração desta
+                    No modo <strong>Online</strong>, as credenciais (usuário/password) e URL base vêm da configuração desta
                     API. No modo <strong>Offline</strong>, é utilizada a base histórica (sem autorização do registro),
                     configurada via variáveis de ambiente.
                   </p>

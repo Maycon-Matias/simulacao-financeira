@@ -95,14 +95,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Atualiza credenciais V8 se necessário
-    if ((v8Api as any).username && (v8Api as any).****** && typeof (v8ClientInstance as any).updateCredentials === 'function') {
+    if ((v8Api as any).username && (v8Api as any).password && typeof (v8ClientInstance as any).updateCredentials === 'function') {
       const authUrl = (v8Api as any).authUrl
       const clientId = (v8Api as any).clientId
       const clientSecret = (v8Api as any).clientSecret
       const audience = (v8Api as any).audience
       ;(v8ClientInstance as any).updateCredentials(
         (v8Api as any).username,
-        (v8Api as any).******,
+        (v8Api as any).password,
         (v8Api as any).baseUrl,
         authUrl,
         clientId,

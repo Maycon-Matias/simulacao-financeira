@@ -398,7 +398,7 @@ export function CLTConsultaLote({ apiTypeFilter, defaultApiId }: CLTConsultaLote
         if ((apiSelecionadaConfig as any).promotId) {
           requestBody.credentials = {
             username: apiSelecionadaConfig.username,
-            ******: apiSelecionadaConfig.******,
+            password: apiSelecionadaConfig.password,
             baseUrl: apiSelecionadaConfig.baseUrl,
             promotId: (apiSelecionadaConfig as any).promotId
           }
@@ -652,7 +652,7 @@ export function CLTConsultaLote({ apiTypeFilter, defaultApiId }: CLTConsultaLote
           if ((apiSelecionadaConfig as any).promotId) {
             requestBody.credentials = {
               username: apiSelecionadaConfig.username,
-              ******: apiSelecionadaConfig.******,
+              password: apiSelecionadaConfig.password,
               baseUrl: apiSelecionadaConfig.baseUrl,
               promotId: (apiSelecionadaConfig as any).promotId
             }

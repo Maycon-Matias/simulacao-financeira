@@ -15,7 +15,7 @@ Consulta na **base OFFLINE** da Facta: usa histórico já existente, **sem neces
 
 ## Autenticação
 
-- **Token:** Header `Authorization: Basic <base64(entidade:******)>` em `/gera-token`.
+- **Token:** Header `Authorization: Basic <base64(entidade:password)>` em `/gera-token`.
 - **Consulta:** Header `Authorization: Bearer <token>` em `/clt/base-offline`.
 - Token válido por **1 hora**; pode ser reutilizado em várias requisições.
 
@@ -28,7 +28,7 @@ Consulta na **base OFFLINE** da Facta: usa histórico já existente, **sem neces
 
 ## Respostas de erro (exemplos do manual)
 
-- **Token:** `"Usuário ou ****** inválida"`, `"Authorization incorreto"`.
+- **Token:** `"Usuário ou password inválida"`, `"Authorization incorreto"`.
 - **Consulta:** `"Consulta de base offline indisponível, volte em 3 segundos"`, `"Nenhum dado encontrado!"`, validação de CPF.
 
 ## Variáveis de ambiente (este projeto)
@@ -38,10 +38,10 @@ Consulta na **base OFFLINE** da Facta: usa histórico já existente, **sem neces
 
 ## Ajuste de credenciais (v2.0 – 09.01.2026)
 
-O manual v2.0 cita **“Ajuste de Credenciais”**. A Facta pode ter passado a exigir **credenciais específicas** para a base offline. Em caso de **403 Forbidden** ou “Usuário ou ****** inválida” na base offline:
+O manual v2.0 cita **“Ajuste de Credenciais”**. A Facta pode ter passado a exigir **credenciais específicas** para a base offline. Em caso de **403 Forbidden** ou “Usuário ou password inválida” na base offline:
 
 1. Confirmar com a Facta se o usuário tem **acesso à base OFFLINE** (cltoff).
-2. Solicitar, se necessário, **usuário/****** específicos** para a API Base Offline.
+2. Solicitar, se necessário, **usuário/password específicos** para a API Base Offline.
 
 ## Implementação no código
 

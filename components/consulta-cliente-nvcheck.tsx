@@ -136,7 +136,7 @@ export function ConsultaClienteNvCheck() {
   const [resultado, setResultado] = useState<any>(null)
   const [erro, setErro] = useState<string | null>(null)
   const [showCred, setShowCred] = useState(false)
-  const [credenciais, setCredenciais] = useState({ entidade: "", ******: "", registro: "" })
+  const [credenciais, setCredenciais] = useState({ entidade: "", senha: "", registro: "" })
   const [testResult, setTestResult] = useState<any>(null)
   const [apisClt, setApisClt] = useState<{ id: string; name: string; type: string }[]>([])
   const [resultadosBancos, setResultadosBancos] = useState<Record<string, { loading: boolean; data?: any; error?: string }>>({})
@@ -149,13 +149,13 @@ export function ConsultaClienteNvCheck() {
         const parsed = JSON.parse(stored)
         setCredenciais({
           entidade: parsed.entidade || "",
-          ******: parsed.****** || "",
+          senha: parsed.senha || "",
           registro: parsed.registro || ""
         })
       } else {
         setCredenciais({
-          entidade: "poracred61@gmail.com",
-          ******: "C#ed@23!8",
+          entidade: "",
+          senha: "",
           registro: "PORACRED"
         })
       }
@@ -210,7 +210,7 @@ export function ConsultaClienteNvCheck() {
         body: JSON.stringify({
           documento: doc,
           entidade: credenciais.entidade,
-          ******: credenciais.******,
+          senha: credenciais.senha,
           registro: credenciais.registro
         })
       })
@@ -718,11 +718,11 @@ export function ConsultaClienteNvCheck() {
                   />
                 </div>
                 <div>
-                  <Label>******</Label>
+                  <Label>Senha</Label>
                   <Input
-                    type="******"
-                    value={credenciais.******}
-                    onChange={(e) => setCredenciais((c) => ({ ...c, ******: e.target.value }))}
+                    type="password"
+                    value={credenciais.senha}
+                    onChange={(e) => setCredenciais((c) => ({ ...c, senha: e.target.value }))}
                     onBlur={salvarCredenciais}
                   />
                 </div>

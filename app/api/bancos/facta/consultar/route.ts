@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
         {
           ok: false,
           banco: 'FACTA',
-          error: 'API Facta não configurada. Configure FACTA_API_BASE_URL, usuário e ******.',
+          error: 'API Facta não configurada. Configure FACTA_API_BASE_URL, usuário e password.',
         },
         { status: 404 }
       )
@@ -56,12 +56,12 @@ export async function POST(request: NextRequest) {
 
     if (
       factaApi.username &&
-      factaApi.****** &&
+      factaApi.password &&
       typeof (clientInstance as any).updateCredentials === 'function'
     ) {
       ;(clientInstance as any).updateCredentials(
         factaApi.username,
-        factaApi.******,
+        factaApi.password,
         factaApi.baseUrl
       )
     }

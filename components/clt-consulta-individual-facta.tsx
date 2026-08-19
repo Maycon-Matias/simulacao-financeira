@@ -128,7 +128,7 @@ export function CLTConsultaIndividualFacta() {
         <Building2 className="h-4 w-4 text-amber-600" />
         <AlertDescription className="text-amber-900">
           <strong>API FACTA não configurada.</strong> Acesse a aba Configuração e cadastre a API Facta
-          (tipo Facta) com a URL base, usuário e ****** fornecidos pela FACTA. Em seguida, volte aqui para
+          (tipo Facta) com a URL base, usuário e password fornecidos pela FACTA. Em seguida, volte aqui para
           realizar a consulta individual por CPF.
         </AlertDescription>
       </Alert>

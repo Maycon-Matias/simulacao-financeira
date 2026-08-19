@@ -14,19 +14,19 @@ export const dynamic = "force-dynamic"
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { username, ******, clientId, authUrl, clientSecret, audience, scope } = body
+    const { username, password, clientId, authUrl, clientSecret, audience, scope } = body
 
-    if (!username || !****** || !clientId || !authUrl) {
+    if (!username || !password || !clientId || !authUrl) {
       return NextResponse.json(
         { 
           success: false,
-          error: 'Username, ******, clientId e authUrl são obrigatórios' 
+          error: 'Username, password, clientId e authUrl são obrigatórios' 
         },
         { status: 400 }
       )
     }
 
-    // OAuth 2.0 ****** Grant
+    // OAuth 2.0 password Grant
     // IMPORTANTE: audience é OBRIGATÓRIO para a API V8 Digital
     if (!audience) {
       return NextResponse.json(
@@ -39,9 +39,9 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = new URLSearchParams()
-    formData.append('grant_type', '******')
+    formData.append('grant_type', 'password')
     formData.append('username', username)
-    formData.append('******', ******)
+    formData.append('password', password)
     formData.append('client_id', clientId)
     formData.append('audience', audience) // OBRIGATÓRIO
     
@@ -79,9 +79,9 @@ export async function POST(request: NextRequest) {
         : btoa(`${clientId}:`)
       
       const formDataBasic = new URLSearchParams()
-      formDataBasic.append('grant_type', '******')
+      formDataBasic.append('grant_type', 'password')
       formDataBasic.append('username', username)
-      formDataBasic.append('******', ******)
+      formDataBasic.append('password', password)
       formDataBasic.append('audience', audience) // OBRIGATÓRIO
       
       // Adiciona parâmetros opcionais
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
           success: false,
           error: errorMessage,
           details: response.status === 401 ? 
-            'Verifique se as credenciais (username, ******, client_id) estão corretas. A API V8 Digital pode requerer client_secret adicional ou usar um formato de autenticação diferente.' :
+            'Verifique se as credenciais (username, password, client_id) estão corretas. A API V8 Digital pode requerer client_secret adicional ou usar um formato de autenticação diferente.' :
             undefined,
         },
         { status: response.status }

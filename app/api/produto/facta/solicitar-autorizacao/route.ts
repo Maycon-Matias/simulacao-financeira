@@ -69,12 +69,12 @@ export async function POST(request: NextRequest) {
 
     if (
       factaApi.username &&
-      factaApi.****** &&
+      factaApi.password &&
       typeof (clientInstance as any).updateCredentials === 'function'
     ) {
       ;(clientInstance as any).updateCredentials(
         factaApi.username,
-        factaApi.******,
+        factaApi.password,
         factaApi.baseUrl,
       )
     }

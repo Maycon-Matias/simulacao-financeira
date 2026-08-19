@@ -89,8 +89,8 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
-    if (v8Api.username && v8Api.****** && typeof client.updateCredentials === "function") {
-      client.updateCredentials(v8Api.username, v8Api.******, v8Api.baseUrl)
+    if (v8Api.username && v8Api.password && typeof client.updateCredentials === "function") {
+      client.updateCredentials(v8Api.username, v8Api.password, v8Api.baseUrl)
     }
 
     if (typeof client.criarTermoConsentimentoCLT !== "function") {

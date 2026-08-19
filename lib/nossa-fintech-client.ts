@@ -8,7 +8,7 @@ export class NossaFintechClient {
   private baseUrl: string
   private cpf: string
   private promotId: number | string | undefined
-  private ******: string
+  private password: string
   private accessToken: string | null = null
   private tokenExpiration: Date | null = null
   private readonly timeout = 30000 // 30 segundos
@@ -36,15 +36,15 @@ export class NossaFintechClient {
     } else {
       this.promotId = undefined
     }
-    this.****** = getEnv('NOSSA_FINTECH_API_PASSWORD', '')
+    this.password = getEnv('NOSSA_FINTECH_API_PASSWORD', '')
   }
 
   /**
    * Atualiza credenciais e URL base
    */
-  updateCredentials(cpf?: string, ******?: string, baseUrl?: string, promotId?: string | number) {
+  updateCredentials(cpf?: string, password?: string, baseUrl?: string, promotId?: string | number) {
     if (cpf) this.cpf = cpf
-    if (******) this.****** = ******
+    if (password) this.password = password
     if (baseUrl) {
       this.baseUrl = baseUrl.replace(/\/$/, '')
     }
@@ -83,10 +83,10 @@ export class NossaFintechClient {
    */
   private async login(): Promise<ApiResponse<string>> {
     try {
-      if (!this.cpf || !this.******) {
+      if (!this.cpf || !this.password) {
         return {
           success: false,
-          error: 'Credenciais não configuradas. Configure CPF e ****** da API Nossa Fintech'
+          error: 'Credenciais não configuradas. Configure CPF e password da API Nossa Fintech'
         }
       }
       
@@ -112,11 +112,11 @@ export class NossaFintechClient {
       const loginPayload = {
         cpf: this.cpf,
         promot_id: promotIdNum,
-        ******: this.******,
+        password: this.password,
       }
       
       console.log('[NossaFintechClient] Fazendo login na API:', `${this.baseUrl}/auth/login`)
-      console.log('[NossaFintechClient] Payload do login:', JSON.stringify({ ...loginPayload, ******: '***' }, null, 2))
+      console.log('[NossaFintechClient] Payload do login:', JSON.stringify({ ...loginPayload, password: '***' }, null, 2))
       console.log('[NossaFintechClient] Promot ID sendo enviado:', promotIdNum, '(tipo:', typeof promotIdNum, ')')
 
       const response = await fetch(`${this.baseUrl}/auth/login`, {

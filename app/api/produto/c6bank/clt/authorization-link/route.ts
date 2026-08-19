@@ -50,8 +50,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: "registro C6 Bank não disponível" }, { status: 500 })
     }
 
-    if (c6Api.username && c6Api.****** && typeof client.updateCredentials === "function") {
-      client.updateCredentials(c6Api.username, c6Api.******, c6Api.baseUrl, (c6Api as any).authUrl)
+    if (c6Api.username && c6Api.password && typeof client.updateCredentials === "function") {
+      client.updateCredentials(c6Api.username, c6Api.password, c6Api.baseUrl, (c6Api as any).authUrl)
     }
 
     if (typeof client.cltGenerateAuthorizationLink !== "function") {

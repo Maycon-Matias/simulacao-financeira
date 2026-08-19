@@ -30,7 +30,7 @@ interface LoginResponse {
 export class PresencaBankClient {
   private baseUrl: string
   private username: string
-  private ******: string
+  private password: string
   private accessToken: string | null = null
   private tokenExpiration: Date | null = null
   private timeout: number
@@ -64,7 +64,7 @@ export class PresencaBankClient {
       this.baseUrl = raw.replace(/\/v3\/.*$/i, '').replace(/\/+$/, '') || raw
     }
     this.username = getEnv('PRESENCA_API_USERNAME', '')
-    this.****** = getEnv('PRESENCA_API_PASSWORD', '')
+    this.password = getEnv('PRESENCA_API_PASSWORD', '')
     // Timeout em ms; padrão 120s (consultar-vinculos pode demorar). Override: PRESENCA_API_TIMEOUT_MS
     this.timeout = getEnvNum('PRESENCA_API_TIMEOUT_MS', 120000)
   }
@@ -72,9 +72,9 @@ export class PresencaBankClient {
   /**
    * Atualiza credenciais e URL base
    */
-  updateCredentials(username?: string, ******?: string, baseUrl?: string) {
+  updateCredentials(username?: string, password?: string, baseUrl?: string) {
     if (username) this.username = username
-    if (******) this.****** = ******
+    if (password) this.password = password
     if (baseUrl) {
       try {
         const u = new URL(baseUrl)
@@ -104,7 +104,7 @@ export class PresencaBankClient {
    */
   private async login(): Promise<ApiResponse<string>> {
     try {
-      if (!this.username || !this.******) {
+      if (!this.username || !this.password) {
         return {
           success: false,
           error: 'Credenciais não configuradas. Configure as credenciais da API Banco Presença'
@@ -126,7 +126,7 @@ export class PresencaBankClient {
           },
           body: JSON.stringify({
             login: this.username,
-            ******: this.******
+            password: this.password
           }),
           signal: controller.signal
         })

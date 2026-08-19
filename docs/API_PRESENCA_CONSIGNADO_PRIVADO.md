@@ -34,7 +34,7 @@ No fluxo Presença Bank (Consignado Privado CLT), o usuário **nunca** informa C
 ### Login
 - **Método:** `POST`
 - **Path:** `/login`
-- **Body:** `{ "login": "", "******": "" }`
+- **Body:** `{ "login": "", "password": "" }`
 - **Resposta:** `{ "token": "..." }` — usar em todas as requisições como Bearer.
 
 ---

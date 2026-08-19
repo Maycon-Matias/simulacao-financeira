@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Loader2, Search } from 'lucide-react'
 
 export default function TestConsultaPage() {
-  const [cpf, setCpf] = useState('05933953954')
+  const [cpf, setCpf] = useState('')
   const [apiId, setApiId] = useState('hubcredito-default')
   const [loading, setLoading] = useState(false)
   const [resultado, setResultado] = useState<any>(null)

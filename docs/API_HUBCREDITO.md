@@ -11,8 +11,8 @@ POST https://api.hubcredito.com.br/api/Login
 ```json
 {
   "userName": "<username>",
-  "******": "<******>",
-  "grantTypes": "******"
+  "password": "<password>",
+  "grantTypes": "password"
 }
 ```
 
@@ -213,6 +213,6 @@ Após receber os vínculos, deve usar os dados do vínculo para enviar a simula�
 ```env
 NEXT_PUBLIC_API_BASE_URL=https://api.hubcredito.com.br/api
 NEXT_PUBLIC_API_USERNAME=seu-entidade
-NEXT_PUBLIC_API_PASSWORD=sua-******
+NEXT_PUBLIC_API_PASSWORD=sua-password
 ```
 

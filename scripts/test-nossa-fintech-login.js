@@ -17,7 +17,7 @@ for (const line of fs.readFileSync(path.join(__dirname, '..', '.env.local'), 'ut
 const body = JSON.stringify({
   cpf: env.NOSSA_FINTECH_API_CPF,
   promot_id: parseInt(env.NOSSA_FINTECH_API_PROMOT_ID || '1', 10),
-  ******: env.NOSSA_FINTECH_API_PASSWORD,
+  password: env.NOSSA_FINTECH_API_PASSWORD,
 })
 
 fetch(`${env.NOSSA_FINTECH_API_BASE_URL}/auth/login`, {

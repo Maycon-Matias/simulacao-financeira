@@ -10,7 +10,7 @@ const NVCHECK_URL = `${BASE_URL}/NVCHECKADICIONALJson`
 
 /** Mensagens de erro que a API pode retornar no body mesmo com status 200 (doc oficial) */
 const ERROS_200_NOVA_VIDA = [
-  'entidade, ****** OU registro INCORRETO',
+  'entidade, password OU registro INCORRETO',
   'SEM ACESSO AO SISTEMA',
   'QUANTIDADE CONFIGURADA ATINGIDA AO registro',
   'QUANTIDADE CONFIGURADA ATINGIDA AO USUÁRIO'
@@ -32,7 +32,7 @@ function mensagemErroNoBody(consulta: unknown): string | null {
 
 export interface NvCheckCredenciais {
   entidade: string
-  ******: string
+  password: string
   registro: string
 }
 
@@ -44,7 +44,7 @@ export interface NvCheckConsultaResponse {
 
 export class NovaVidaTiNvCheckClient {
   private entidade: string
-  private ******: string
+  private password: string
   private registro: string
   private token: string | null = null
   private tokenExpiry: number = 0
@@ -58,13 +58,13 @@ export class NovaVidaTiNvCheckClient {
       return def
     }
     this.entidade = credenciais?.entidade || getEnv('NOVVIDATI_USUARIO', '')
-    this.****** = credenciais?.****** || getEnv('NOVVIDATI_SENHA', '')
+    this.password = credenciais?.password || getEnv('NOVVIDATI_SENHA', '')
     this.registro = credenciais?.registro || getEnv('NOVVIDATI_CLIENTE', '')
   }
 
-  updateCredentials(entidade: string, ******: string, registro: string) {
+  updateCredentials(entidade: string, password: string, registro: string) {
     this.entidade = entidade
-    this.****** = ******
+    this.password = password
     this.registro = registro
     this.token = null
     this.tokenExpiry = 0
@@ -77,8 +77,8 @@ export class NovaVidaTiNvCheckClient {
   private async getToken(): Promise<string> {
     if (this.isTokenValid()) return this.token!
 
-    if (!this.entidade || !this.****** || !this.registro) {
-      throw new Error('Nova Vida TI: credenciais não configuradas (entidade, ******, registro). Configure NOVVIDATI_USUARIO, NOVVIDATI_SENHA, NOVVIDATI_CLIENTE.')
+    if (!this.entidade || !this.password || !this.registro) {
+      throw new Error('Nova Vida TI: credenciais não configuradas (entidade, password, registro). Configure NOVVIDATI_USUARIO, NOVVIDATI_SENHA, NOVVIDATI_CLIENTE.')
     }
 
     const res = await fetch(TOKEN_URL, {
@@ -87,7 +87,7 @@ export class NovaVidaTiNvCheckClient {
       body: JSON.stringify({
         credencial: {
           entidade: this.entidade,
-          ******: this.******,
+          password: this.password,
           registro: this.registro
         }
       })
@@ -122,7 +122,7 @@ export class NovaVidaTiNvCheckClient {
     const invalidChars = /[<>"'\r\n]/
     const isValidToken = token && typeof token === 'string' && token.length < 3000 && !invalidChars.test(token)
     if (!isValidToken) {
-      throw new Error(`Nova Vida TI: falha ao gerar token. Verifique usuário, ****** e registro.`)
+      throw new Error(`Nova Vida TI: falha ao gerar token. Verifique usuário, password e registro.`)
     }
 
     this.token = token

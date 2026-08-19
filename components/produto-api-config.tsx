@@ -24,7 +24,7 @@ export function ProdutoApiConfig() {
     name: "",
     baseUrl: "",
     username: "",
-    ******: "",
+    password: "",
     type: 'nossafintech' as ApiConfigType['type'],
     promotId: "",
     clientId: "",
@@ -38,7 +38,7 @@ export function ProdutoApiConfig() {
     name: "",
     baseUrl: "",
     username: "",
-    ******: "",
+    password: "",
     type: 'nossafintech' as ApiConfigType['type'],
     promotId: "",
     clientId: "",
@@ -120,7 +120,7 @@ export function ProdutoApiConfig() {
         name: newApi.name,
         baseUrl,
         username: newApi.username || undefined,
-        ******: newApi.****** || undefined,
+        password: newApi.password || undefined,
         active: true,
         type: newApi.type
       }
@@ -148,7 +148,7 @@ export function ProdutoApiConfig() {
       const id = manager.addConfig(config)
 
       loadApis()
-      setNewApi({ name: "", baseUrl: "", username: "", ******: "", type: 'nossafintech' as ApiConfigType['type'], promotId: "", clientId: "", clientSecret: "", authUrl: "", audience: "" })
+      setNewApi({ name: "", baseUrl: "", username: "", password: "", type: 'nossafintech' as ApiConfigType['type'], promotId: "", clientId: "", clientSecret: "", authUrl: "", audience: "" })
       alert('API adicionada com sucesso!')
     } catch (error: any) {
       alert(`Erro ao adicionar API: ${error.message}`)
@@ -167,7 +167,7 @@ export function ProdutoApiConfig() {
         name: editApi.name,
         baseUrl,
         username: editApi.username || undefined,
-        ******: editApi.****** || undefined,
+        password: editApi.password || undefined,
         type: editApi.type
       }
       
@@ -204,7 +204,7 @@ export function ProdutoApiConfig() {
         }
         
         setEditingId(null)
-        setEditApi({ name: "", baseUrl: "", username: "", ******: "", type: 'nossafintech' as ApiConfigType['type'], promotId: "", clientId: "", clientSecret: "", authUrl: "", audience: "" })
+        setEditApi({ name: "", baseUrl: "", username: "", password: "", type: 'nossafintech' as ApiConfigType['type'], promotId: "", clientId: "", clientSecret: "", authUrl: "", audience: "" })
         alert('API atualizada com sucesso!')
       }
     } catch (error: any) {
@@ -267,7 +267,7 @@ export function ProdutoApiConfig() {
       const freshClient = manager.getClient(id, true) // forceRecreate = true
       
       // Garante que as credenciais estão atualizadas no client (especialmente para Nossa Fintech e V8 Digital)
-      if (updatedConfig.type === 'nossafintech' && updatedConfig.username && updatedConfig.****** && 'updateCredentials' in freshClient) {
+      if (updatedConfig.type === 'nossafintech' && updatedConfig.username && updatedConfig.password && 'updateCredentials' in freshClient) {
         const nossaClient = freshClient as any
         // Obtém o promotId da configuração atualizada
         const promotId = (updatedConfig as any).promotId
@@ -276,11 +276,11 @@ export function ProdutoApiConfig() {
         console.log('[ProdutoApiConfig] Promot ID final:', promotId)
         nossaClient.updateCredentials(
           updatedConfig.username,
-          updatedConfig.******,
+          updatedConfig.password,
           updatedConfig.baseUrl,
           promotId
         )
-      } else if (updatedConfig.type === 'v8digital' && updatedConfig.username && updatedConfig.****** && 'updateCredentials' in freshClient) {
+      } else if (updatedConfig.type === 'v8digital' && updatedConfig.username && updatedConfig.password && 'updateCredentials' in freshClient) {
         const v8Client = freshClient as any
         const clientId = (updatedConfig as any).clientId
         const authUrl = (updatedConfig as any).authUrl
@@ -291,7 +291,7 @@ export function ProdutoApiConfig() {
         console.log('[ProdutoApiConfig] Auth URL:', authUrl)
         v8Client.updateCredentials(
           updatedConfig.username,
-          updatedConfig.******,
+          updatedConfig.password,
           updatedConfig.baseUrl,
           authUrl,
           clientId,
@@ -403,7 +403,7 @@ export function ProdutoApiConfig() {
       name: api.name,
       baseUrl: api.baseUrl,
       username: api.username || "",
-      ******: "",
+      password: "",
       type: api.type || 'nossafintech',
       promotId: (api as any).promotId ? String((api as any).promotId) : '',
       clientId: (api as any).clientId || "",
@@ -601,12 +601,12 @@ export function ProdutoApiConfig() {
                           </select>
                         </div>
                         <div>
-                          <Label>******</Label>
+                          <Label>Senha</Label>
                           <Input
-                            type="******"
-                            value={editApi.******}
-                            onChange={(e) => setEditApi({ ...editApi, ******: e.target.value })}
-                            placeholder="****** (deixe vazio para manter a atual)"
+                            type="password"
+                            value={editApi.password}
+                            onChange={(e) => setEditApi({ ...editApi, password: e.target.value })}
+                            placeholder="password (deixe vazio para manter a atual)"
                           />
                         </div>
                         {editApi.type === 'nossafintech' && (
@@ -639,7 +639,7 @@ export function ProdutoApiConfig() {
                             <div>
                               <Label>Client Secret {editApi.type === 'credspot' ? '*' : ''}</Label>
                               <Input
-                                type="******"
+                                type="password"
                                 value={editApi.clientSecret}
                                 onChange={(e) => setEditApi({ ...editApi, clientSecret: e.target.value })}
                                 placeholder="Deixe em branco para manter o secret já salvo"
@@ -750,12 +750,12 @@ export function ProdutoApiConfig() {
                 )}
               </div>
               <div>
-                <Label>******</Label>
+                <Label>Senha</Label>
                 <Input
-                  type="******"
-                  value={newApi.******}
-                  onChange={(e) => setNewApi({ ...newApi, ******: e.target.value })}
-                  placeholder="****** (opcional)"
+                  type="password"
+                  value={newApi.password}
+                  onChange={(e) => setNewApi({ ...newApi, password: e.target.value })}
+                  placeholder="password (opcional)"
                 />
               </div>
               {newApi.type === 'nossafintech' && (
@@ -788,7 +788,7 @@ export function ProdutoApiConfig() {
                   <div>
                     <Label>Client Secret {newApi.type === 'credspot' ? '*' : ''}</Label>
                     <Input
-                      type="******"
+                      type="password"
                       value={newApi.clientSecret}
                       onChange={(e) => setNewApi({ ...newApi, clientSecret: e.target.value })}
                       placeholder="Client Secret"

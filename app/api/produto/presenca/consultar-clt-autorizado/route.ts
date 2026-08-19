@@ -51,8 +51,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (client.updateCredentials && presencaApi.username && presencaApi.******) {
-      client.updateCredentials(presencaApi.username, presencaApi.******, presencaApi.baseUrl)
+    if (client.updateCredentials && presencaApi.username && presencaApi.password) {
+      client.updateCredentials(presencaApi.username, presencaApi.password, presencaApi.baseUrl)
     }
 
     let autorizacaoId: string | undefined

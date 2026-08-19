@@ -9,7 +9,7 @@ import { normalizarDadosNv, type DadosClienteNv } from '@/lib/whatsapp-nv-normal
  * Usa cache por CPF para evitar consultas repetidas (custo). Cache TTL 24h.
  *
  * Body: { cpf: string, forcar_consulta?: boolean }
- * Credenciais: env NOVVIDATI_* ou body entidade, ******, registro
+ * Credenciais: env NOVVIDATI_* ou body entidade, password, registro
  */
 export async function POST(request: NextRequest) {
   try {
@@ -27,10 +27,10 @@ export async function POST(request: NextRequest) {
     }
 
     const entidade = body.entidade || process.env.REDACTED || ''
-    const ****** = body.****** || process.env.REDACTED || ''
+    const password = body.password || process.env.REDACTED || ''
     const registro = body.registro || process.env.REDACTED || ''
 
-    if (!entidade || !****** || !registro) {
+    if (!entidade || !password || !registro) {
       return NextResponse.json({
         success: false,
         error: 'Credenciais Nova Vida não configuradas',
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!consulta) {
-      const credenciais = { entidade, ******, registro }
+      const credenciais = { entidade, password, registro }
       const client = new NovaVidaTiNvCheckClient(credenciais)
       const result = await client.consultar(cpf)
       if (!result.success) {

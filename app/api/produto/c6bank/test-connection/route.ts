@@ -33,11 +33,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Atualiza credenciais se necessário
-    if (c6Api.username && c6Api.****** && typeof (clientInstance as any).updateCredentials === 'function') {
+    if (c6Api.username && c6Api.password && typeof (clientInstance as any).updateCredentials === 'function') {
       const authUrl = (c6Api as any).authUrl
       ;(clientInstance as any).updateCredentials(
         c6Api.username,
-        c6Api.******,
+        c6Api.password,
         c6Api.baseUrl,
         authUrl
       )

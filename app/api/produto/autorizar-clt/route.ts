@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
     if (credentials && config.type === 'nossafintech' && credentials.promotId) {
       (config as any).promotId = credentials.promotId
       if (credentials.username) config.username = credentials.username
-      if (credentials.******) config.****** = credentials.******
+      if (credentials.password) config.password = credentials.password
       if (credentials.baseUrl) config.baseUrl = credentials.baseUrl
       console.log('[autorizar-clt] Usando credenciais da requisição, promotId:', credentials.promotId)
     }
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
         console.log('[autorizar-clt] Atualizando credenciais do registro com promotId da requisição:', credentials.promotId)
         nossaFintechClient.updateCredentials(
           credentials.username || config.username,
-          credentials.****** || config.******,
+          credentials.password || config.password,
           credentials.baseUrl || config.baseUrl,
           credentials.promotId
         )

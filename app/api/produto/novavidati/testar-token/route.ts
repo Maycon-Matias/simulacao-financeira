@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 /**
  * POST /api/produto/novavidati/testar-token
  * Retorna a resposta bruta do GerarTokenJson para debug.
- * Body: { entidade, ******, registro }
+ * Body: { entidade, password, registro }
  */
 export async function POST(request: NextRequest) {
   try {
@@ -18,13 +18,13 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json().catch(() => ({}))
     const entidade = body.entidade || process.env.REDACTED || ''
-    const ****** = body.****** || process.env.REDACTED || ''
+    const password = body.password || process.env.REDACTED || ''
     const registro = body.registro || process.env.REDACTED || ''
 
-    if (!entidade || !****** || !registro) {
+    if (!entidade || !password || !registro) {
       return NextResponse.json({
         success: false,
-        error: 'Informe entidade, ****** e registro no body'
+        error: 'Informe entidade, password e registro no body'
       }, { status: 400 })
     }
 
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        credencial: { entidade, ******, registro }
+        credencial: { entidade, password, registro }
       })
     })
 

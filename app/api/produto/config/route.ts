@@ -38,13 +38,13 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { username, ****** } = body
+    const { username, password } = body
 
     // Atualiza credenciais temporariamente se fornecidas
-    if (username || ******) {
+    if (username || password) {
       hubCreditoClient.updateCredentials(
         username || process.env.REDACTED,
-        ****** || process.env.REDACTED
+        password || process.env.REDACTED
       )
     }
 

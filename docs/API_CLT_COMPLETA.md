@@ -407,7 +407,7 @@ Todas as requisições requerem o header:
 Authorization: Bearer {accessToken}
 ```
 
-O token é obtido através do endpoint `/api/Login` com `userName` e `******`.
+O token é obtido através do endpoint `/api/Login` com `userName` e `password`.
 
 ---
 

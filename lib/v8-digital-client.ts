@@ -11,7 +11,7 @@ export class V8DigitalClient {
   private baseUrl: string
   private authUrl: string
   private username: string
-  private ******: string
+  private password: string
   private clientId: string
   private clientSecret?: string
   private audience: string // OBRIGATÓRIO para V8 Digital
@@ -51,7 +51,7 @@ export class V8DigitalClient {
     this.baseUrl = baseUrl || getEnv('V8_API_BASE_URL', 'https://bff.v8sistema.com')
     this.authUrl = authUrl || getEnv('V8_API_AUTH_URL', 'https://auth.v8sistema.com/oauth/token')
     this.username = getEnv('V8_API_USERNAME', '')
-    this.****** = getEnv('V8_API_PASSWORD', '')
+    this.password = getEnv('V8_API_PASSWORD', '')
     this.clientId = getEnv('V8_API_CLIENT_ID', '')
     this.clientSecret = getEnv('V8_API_CLIENT_SECRET', '')
     this.audience = getEnv('V8_API_AUDIENCE', 'https://bff.v8sistema.com') || 'https://bff.v8sistema.com' // OBRIGATÓRIO
@@ -66,7 +66,7 @@ export class V8DigitalClient {
    */
   updateCredentials(
     username?: string, 
-    ******?: string, 
+    password?: string, 
     baseUrl?: string, 
     authUrl?: string, 
     clientId?: string,
@@ -74,7 +74,7 @@ export class V8DigitalClient {
     audience?: string
   ) {
     if (username) this.username = username
-    if (******) this.****** = ******
+    if (password) this.password = password
     if (baseUrl) {
       this.baseUrl = baseUrl.replace(/\/$/, '')
     }
@@ -177,14 +177,14 @@ export class V8DigitalClient {
       try {
         this.lastLoginAttempt = new Date()
       
-        if (!this.username || !this.****** || !this.clientId) {
+        if (!this.username || !this.password || !this.clientId) {
           return {
             success: false,
-            error: 'Credenciais não configuradas. Configure username, ****** e client_id da API V8 Digital'
+            error: 'Credenciais não configuradas. Configure username, password e client_id da API V8 Digital'
           }
         }
 
-      // OAuth 2.0 ****** Grant
+      // OAuth 2.0 password Grant
       // IMPORTANTE: audience é OBRIGATÓRIO para a API V8 Digital
       if (!this.audience || this.audience.trim() === '') {
         return {
@@ -194,9 +194,9 @@ export class V8DigitalClient {
       }
 
       const formData = new URLSearchParams()
-      formData.append('grant_type', '******')
+      formData.append('grant_type', 'password')
       formData.append('username', this.username)
-      formData.append('******', this.******)
+      formData.append('password', this.password)
       formData.append('client_id', this.clientId)
       formData.append('audience', this.audience) // OBRIGATÓRIO
       formData.append('scope', 'offline_access') // Scope padrão
@@ -223,7 +223,7 @@ export class V8DigitalClient {
           },
           body: JSON.stringify({
             username: this.username,
-            ******: this.******,
+            password: this.password,
             clientId: this.clientId,
             authUrl: this.authUrl,
             scope: 'offline_access', // Scope padrão conforme documentação V8 Digital
@@ -298,7 +298,7 @@ export class V8DigitalClient {
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), this.timeout)
 
-      log.debug('Request OAuth', { grant_type: '******', audience: this.audience })
+      log.debug('Request OAuth', { grant_type: 'password', audience: this.audience })
 
       response = await fetch(this.authUrl, {
         method: 'POST',

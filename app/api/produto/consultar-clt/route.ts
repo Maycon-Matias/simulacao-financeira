@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       const promessas = configs.map(async (config) => {
         try {
           // Verifica se a configuração tem credenciais
-          if (!config.username || !config.******) {
+          if (!config.username || !config.password) {
             return {
               apiId: config.id,
               apiName: config.name,
@@ -63,11 +63,11 @@ export async function POST(request: NextRequest) {
           if (!client) {
             // Se não encontrou o registro, cria um novo com a configuração atualizada
             const updatedConfig = manager.getConfig(config.id)
-            if (updatedConfig && updatedConfig.username && updatedConfig.******) {
+            if (updatedConfig && updatedConfig.username && updatedConfig.password) {
               client = manager.getClientById(config.id) || manager.getClient()
               // Força atualização das credenciais
               if ('updateCredentials' in client) {
-                (client as any).updateCredentials(updatedConfig.username, updatedConfig.******, updatedConfig.baseUrl)
+                (client as any).updateCredentials(updatedConfig.username, updatedConfig.password, updatedConfig.baseUrl)
               }
             } else {
               return {
@@ -207,7 +207,7 @@ export async function POST(request: NextRequest) {
     if (credentials && config.type === 'nossafintech' && credentials.promotId) {
       (config as any).promotId = credentials.promotId
       if (credentials.username) config.username = credentials.username
-      if (credentials.******) config.****** = credentials.******
+      if (credentials.password) config.password = credentials.password
       if (credentials.baseUrl) config.baseUrl = credentials.baseUrl
       console.log('[consultar-clt] Usando credenciais da requisição, promotId:', credentials.promotId)
     }
@@ -219,7 +219,7 @@ export async function POST(request: NextRequest) {
         name: config.name,
         baseUrl: config.baseUrl,
         username: config.username,
-        hasPassword: !!config.******,
+        hasPassword: !!config.password,
         promotId: (config as any).promotId,
         promotIdType: typeof (config as any).promotId
       })
@@ -234,7 +234,7 @@ export async function POST(request: NextRequest) {
         console.log('[consultar-clt] Atualizando credenciais do registro com promotId da requisição:', credentials.promotId)
         nossaFintechClient.updateCredentials(
           credentials.username || config.username,
-          credentials.****** || config.******,
+          credentials.password || config.password,
           credentials.baseUrl || config.baseUrl,
           credentials.promotId
         )

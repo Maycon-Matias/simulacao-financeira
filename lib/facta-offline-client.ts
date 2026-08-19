@@ -23,7 +23,7 @@ interface FactaOfflineDadosTrabalhador {
 export class FactaOfflineClient {
   private baseUrl: string
   private username: string
-  private ******: string
+  private password: string
   private accessToken: string | null = null
   private tokenExpiration: Date | null = null
   private readonly timeout: number
@@ -45,7 +45,7 @@ export class FactaOfflineClient {
 
     this.baseUrl = (baseUrl || getEnv("FACTA_OFFLINE_API_BASE_URL", "")).replace(/\/$/, "")
     this.username = getEnv("FACTA_OFFLINE_API_USERNAME", "") || getEnv("FACTA_API_USERNAME", "")
-    this.****** = getEnv("FACTA_OFFLINE_API_PASSWORD", "") || getEnv("FACTA_API_PASSWORD", "")
+    this.password = getEnv("FACTA_OFFLINE_API_PASSWORD", "") || getEnv("FACTA_API_PASSWORD", "")
     this.timeout = options?.timeout ?? getEnvNum("FACTA_OFFLINE_API_TIMEOUT_MS", 30000)
     this.logEnabled = options?.log ?? getEnv("FACTA_OFFLINE_API_LOG", "") === "1"
   }
@@ -63,7 +63,7 @@ export class FactaOfflineClient {
     const isHtml = /<\s*!?DOCTYPE|<\s*html\s|<\s*body\s/i.test(body)
     const is403 = status === 403 || (body.includes("403") && /forbidden|proibido|permission/i.test(body))
     if (is403 || (isHtml && body.includes("Forbidden"))) {
-      return "Acesso negado (403) pela API Facta Offline. Verifique no .env: FACTA_OFFLINE_API_BASE_URL e as credenciais (FACTA_OFFLINE_API_USERNAME/****** ou, se for o mesmo usuário, FACTA_API_USERNAME/******). Confirme também se o usuário tem permissão para a base offline."
+      return "Acesso negado (403) pela API Facta Offline. Verifique no .env: FACTA_OFFLINE_API_BASE_URL e as credenciais (FACTA_OFFLINE_API_USERNAME/password ou, se for o mesmo usuário, FACTA_API_USERNAME/password). Confirme também se o usuário tem permissão para a base offline."
     }
     if (isHtml && body.trim()) {
       return `Resposta inválida da API (HTTP ${status}). O servidor retornou HTML em vez de JSON — verifique a URL e as credenciais.`
@@ -76,9 +76,9 @@ export class FactaOfflineClient {
     }
   }
 
-  updateCredentials(username?: string, ******?: string, baseUrl?: string) {
+  updateCredentials(username?: string, password?: string, baseUrl?: string) {
     if (username) this.username = username
-    if (******) this.****** = ******
+    if (password) this.password = password
     if (baseUrl) this.baseUrl = baseUrl.replace(/\/$/, "")
     this.accessToken = null
     this.tokenExpiration = null
@@ -93,7 +93,7 @@ export class FactaOfflineClient {
    * Obtém token via GET /gera-token com Basic Auth na base OFFLINE.
    */
   private async getToken(): Promise<ApiResponse<string>> {
-    if (!this.username || !this.******) {
+    if (!this.username || !this.password) {
       return {
         success: false,
         error: "Credenciais Facta Offline não configuradas. Configure FACTA_OFFLINE_API_USERNAME e FACTA_OFFLINE_API_PASSWORD no .env — ou use o mesmo usuário da Facta com FACTA_API_USERNAME e FACTA_API_PASSWORD.",
@@ -108,7 +108,7 @@ export class FactaOfflineClient {
 
     try {
       const url = `${this.baseUrl}/gera-token`
-      const basic = Buffer.from(`${this.username}:${this.******}`).toString("base64")
+      const basic = Buffer.from(`${this.username}:${this.password}`).toString("base64")
 
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), this.timeout)

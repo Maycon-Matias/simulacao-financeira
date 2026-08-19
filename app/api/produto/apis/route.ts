@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const manager = getApiManager()
     
     if (apiId) {
-      // Retorna configuração específica (sem ******)
+      // Retorna configuração específica (sem password)
       const config = manager.getConfig(apiId)
       if (!config) {
         return NextResponse.json(
@@ -29,8 +29,8 @@ export async function GET(request: NextRequest) {
         success: true,
         config: {
           ...config,
-          ******: undefined, // Não retorna ******
-          hasPassword: !!config.******
+          password: undefined, // Não retorna password
+          hasPassword: !!config.password
         }
       })
     }
@@ -38,8 +38,8 @@ export async function GET(request: NextRequest) {
     // Retorna todas as APIs (sem senhas)
     const configs = manager.getConfigs().map(config => ({
       ...config,
-      ******: undefined,
-      hasPassword: !!config.******
+      password: undefined,
+      hasPassword: !!config.password
     }))
 
     return NextResponse.json({
